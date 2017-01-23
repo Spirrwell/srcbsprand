@@ -21,7 +21,7 @@ const char *VPK_ReadString( FILE *file )
 
 char *VPK_ReadAndAllocString( FILE *file )
 {
-	char *string = malloc( 256 );
+	char *string = ( char* )malloc( 256 );
 	memset( string, '\0', 256 );
 
 	for ( int i = 0; i < 256; i++ )

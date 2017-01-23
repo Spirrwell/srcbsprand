@@ -146,12 +146,12 @@ BOOL BSPRand_TextureRandomizer()
 	{
 		// recreate the string table from random material names
 		int stringTableSize = map->texdataStringTableCount;
-		StringTableItem_t **stringTable = malloc( stringTableSize * sizeof( StringTableItem_t* ) );
+		StringTableItem_t **stringTable = ( StringTableItem_t** )malloc( stringTableSize * sizeof( StringTableItem_t* ) );
 
 		int totalLen = -1;
 		for ( int i = 0; i < stringTableSize; i++ )
 		{
-			StringTableItem_t *item = malloc( sizeof( StringTableItem_t ) );
+			StringTableItem_t *item = ( StringTableItem_t* )malloc( sizeof( StringTableItem_t ) );
 
 			// TODO: need better rand? lol
 			int seed = ( BSPRand_GetRandomSeed() + ( i * 0xD1CE ) );
@@ -355,7 +355,7 @@ BOOL BSPRand_RecursiveTextureScan( char *current )
 				FixSlashes( relative, '\\' );
 
 				// Alloc some for material name, we need to keep it
-				char *matName = malloc( 512 );
+				char *matName = ( char* )malloc( 512 );
 				strncpy( matName, relative, sizeof( relative ) );
 
 				// If it's not vmt bail out
@@ -373,7 +373,7 @@ BOOL BSPRand_RecursiveTextureScan( char *current )
 				strncpy( matName, strstr( matName, matDir ), 512 );
 				strncpy( matName, matName + strlen( matDir ), 512 );
 
-				pszMatNameCache = realloc( pszMatNameCache, ( iMatNameCacheSize + 1 ) * sizeof( char* ) );
+				pszMatNameCache = ( char** )realloc( pszMatNameCache, ( iMatNameCacheSize + 1 ) * sizeof( char* ) );
 				pszMatNameCache[iMatNameCacheSize] = matName;
 				iMatNameCacheSize = iMatNameCacheSize;
 				iMatNameCacheSize++;
@@ -454,7 +454,7 @@ BOOL BSPRand_VPKTextureScan( char *dir )
 						if ( StrContains( matName, "materials\\" ) || StrContains( matName, "materials/" ) )
 						{
 							// Strip first dir
-							char *finalMatName = malloc( 512 );
+							char *finalMatName = ( char* )malloc( 512 );
 							for ( size_t i = 0; i < strlen( matName ); i++ )
 							{
 								if ( PATHSEPARATOR( matName[i] ) )
@@ -464,7 +464,7 @@ BOOL BSPRand_VPKTextureScan( char *dir )
 								}
 							}
 
-							pszMatNameCache = realloc( pszMatNameCache, ( iMatNameCacheSize + 1 ) * sizeof( char* ) );
+							pszMatNameCache = ( char** )realloc( pszMatNameCache, ( iMatNameCacheSize + 1 ) * sizeof( char* ) );
 							pszMatNameCache[iMatNameCacheSize] = finalMatName;
 							iMatNameCacheSize = iMatNameCacheSize;
 							iMatNameCacheSize++;

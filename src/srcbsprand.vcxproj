@@ -69,12 +69,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="bsprand.c" />
-    <ClCompile Include="file.c" />
-    <ClCompile Include="main.c" />
-    <ClCompile Include="stdafx.c" />
-    <ClCompile Include="util.c" />
-    <ClCompile Include="vpk.c" />
+    <ClCompile Include="bsprand.cpp" />
+    <ClCompile Include="file.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="util.cpp" />
+    <ClCompile Include="vpk.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bsp.h" />

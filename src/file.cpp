@@ -146,11 +146,11 @@ void File_ReadTextures( FILE *file, Map_t *map )
 
 	fseek( file, map->header.lumps[LUMP_TEXINFO].fileofs, SEEK_SET );
 
-	map->texinfo = malloc( texcount * sizeof( texinfo_t* ) );
+	map->texinfo = ( texinfo_t** )malloc( texcount * sizeof( texinfo_t* ) );
 	map->texinfoCount = texcount;
 	for ( int i = 0; i < texcount; i++ )
 	{
-		texinfo_t *texinfo = malloc( sizeof( texinfo_t ) );
+		texinfo_t *texinfo = ( texinfo_t* )malloc( sizeof( texinfo_t ) );
 		fread( texinfo, 1, sizeof( texinfo_t ), file );
 		map->texinfo[i] = texinfo;
 	}
@@ -161,11 +161,11 @@ void File_ReadTextures( FILE *file, Map_t *map )
 	int texdatacount = map->header.lumps[LUMP_TEXDATA].filelen / sizeof( dtexdata_t );
 	fseek( file, map->header.lumps[LUMP_TEXDATA].fileofs, SEEK_SET );
 
-	map->texdata = malloc( texdatacount * sizeof( dtexdata_t* ) );
+	map->texdata = ( dtexdata_t** )malloc( texdatacount * sizeof( dtexdata_t* ) );
 	map->texdataCount = texdatacount;
 	for ( int i = 0; i < texdatacount; i++ )
 	{
-		dtexdata_t *texdata = malloc( sizeof( dtexdata_t ) );
+		dtexdata_t *texdata = ( dtexdata_t* )malloc( sizeof( dtexdata_t ) );
 		fread( texdata, 1, sizeof( dtexdata_t ), file );
 		map->texdata[i] = texdata;
 	}
@@ -176,7 +176,7 @@ void File_ReadTextures( FILE *file, Map_t *map )
 	int strtablecount = map->header.lumps[LUMP_TEXDATA_STRING_TABLE].filelen / sizeof( int );
 	fseek( file, map->header.lumps[LUMP_TEXDATA_STRING_TABLE].fileofs, SEEK_SET );
 
-	map->texdataStringTable = malloc( strtablecount * sizeof( int ) );
+	map->texdataStringTable = ( int* )malloc( strtablecount * sizeof( int ) );
 	map->texdataStringTableCount = strtablecount;
 	for ( int i = 0; i < strtablecount; i++ )
 	{
@@ -212,11 +212,11 @@ void File_ReadTextures( FILE *file, Map_t *map )
 		free( strTable );
 	}
 
-	map->textures = malloc( texcount * sizeof( Texture_t* ) );
+	map->textures = ( Texture_t** )malloc( texcount * sizeof( Texture_t* ) );
 	map->textureCount = texcount;
 	for ( int i = 0; i < texcount; i++ )
 	{
-		Texture_t *tex = malloc( sizeof( Texture_t ) );
+		Texture_t *tex = ( Texture_t* )malloc( sizeof( Texture_t ) );
 		tex->idx = i;
 		tex->dataidx = map->texinfo[i]->texdata;
 
@@ -243,11 +243,11 @@ void File_ReadModels( FILE *file, Map_t *map )
 	Spew( "%d models found\n", count );
 	fseek( file, map->header.lumps[LUMP_MODELS].fileofs, SEEK_SET );
 
-	map->models = malloc( count * sizeof( dmodel_t* ) );
+	map->models = ( dmodel_t** )malloc( count * sizeof( dmodel_t* ) );
 	map->modelCount = count;
 	for ( int i = 0; i < count; i++ )
 	{
-		dmodel_t *dmodel = malloc( sizeof( dmodel_t ) );
+		dmodel_t *dmodel = ( dmodel_t* )malloc( sizeof( dmodel_t ) );
 		fread( dmodel, 1, sizeof( dmodel_t ), file );
 		map->models[i] = dmodel;
 	}
@@ -260,11 +260,11 @@ void File_ReadDisplacements( FILE *file, Map_t *map )
 	Spew( "%d disps found\n", count );
 	fseek( file, map->header.lumps[LUMP_DISPINFO].fileofs, SEEK_SET );
 
-	map->displacements = malloc( count * sizeof( ddispinfo_t* ) );
+	map->displacements = ( ddispinfo_t** )malloc( count * sizeof( ddispinfo_t* ) );
 	map->dispCount = count;
 	for ( int i = 0; i < count; i++ )
 	{
-		ddispinfo_t *dispinfo = malloc( sizeof( ddispinfo_t ) );
+		ddispinfo_t *dispinfo = ( ddispinfo_t* )malloc( sizeof( ddispinfo_t ) );
 		fread( dispinfo, 1, sizeof( ddispinfo_t ), file );
 		map->displacements[i] = dispinfo;
 	}
@@ -277,11 +277,11 @@ void File_ReadOverlays( FILE *file, Map_t *map )
 	Spew( "%d overlays found...\n", count );
 	fseek( file, map->header.lumps[LUMP_DISPINFO].fileofs, SEEK_SET );
 
-	map->overlays = malloc( count * sizeof( doverlay_t* ) );
+	map->overlays = ( doverlay_t** )malloc( count * sizeof( doverlay_t* ) );
 	map->overlayCount = count;
 	for ( int i = 0; i < count; i++ )
 	{
-		doverlay_t *doverlay = malloc( sizeof( doverlay_t ) );
+		doverlay_t *doverlay = ( doverlay_t* )malloc( sizeof( doverlay_t ) );
 		fread( doverlay, 1, sizeof( doverlay_t ), file );
 		map->overlays[i] = doverlay;
 	}
@@ -342,7 +342,7 @@ void File_WriteTextures( FILE *file, Map_t *map )
 // fix this crap, spams newlines
 char *File_GetPrintableStringTable( const char *strtable, int size )
 {
-	char *buffer = malloc( size + 1 );
+	char *buffer = ( char* )malloc( size + 1 );
 
 	int i = 0;
 	while ( i < size )
