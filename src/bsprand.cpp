@@ -576,7 +576,7 @@ BOOL BSPRand_ExtractEnts()
 				free( curEnt );
 
 			// new entity
-			curEnt = malloc( sizeof( Entity_t ) );
+			curEnt = ( Entity_t* )malloc( sizeof( Entity_t ) );
 			curEnt->keyValues = NULL;
 
 			endBracketFound = FALSE;
@@ -587,7 +587,7 @@ BOOL BSPRand_ExtractEnts()
 			if ( curEnt )
 			{
 				entCount++;
-				ents = realloc( ents, entCount * sizeof( Entity_t* ) );
+				ents = ( Entity_t** )realloc( ents, entCount * sizeof( Entity_t* ) );
 				ents[entCount - 1] = curEnt;
 				curEnt = NULL;
 				kvCount = 0;
@@ -598,7 +598,7 @@ BOOL BSPRand_ExtractEnts()
 		else if ( !endBracketFound && curEnt )
 		{
 			// get keyvalue
-			KeyValue_t *kv = malloc( sizeof( KeyValue_t ) );
+			KeyValue_t *kv = ( KeyValue_t* )malloc( sizeof( KeyValue_t ) );
 			int set = 0;
 			int start = -1;
 			int end = -1;
@@ -664,7 +664,7 @@ BOOL BSPRand_ExtractEnts()
 
 			// add kv to list
 			kvCount++;
-			curEnt->keyValues = realloc( curEnt->keyValues, kvCount * sizeof( KeyValue_t* ) );
+			curEnt->keyValues = ( KeyValue_t** )realloc( curEnt->keyValues, kvCount * sizeof( KeyValue_t* ) );
 			curEnt->keyValues[kvCount - 1] = kv;
 			curEnt->kvCount = kvCount;
 		}
@@ -736,7 +736,7 @@ BOOL BSPRand_BuildEntBuffer()
 
 		// start bracket
 		totalSize += 2;
-		pMap->entitiesBuffer = realloc( pMap->entitiesBuffer, totalSize );
+		pMap->entitiesBuffer = ( char* )realloc( pMap->entitiesBuffer, totalSize );
 		pMap->entitiesBuffer[++cur] = '{';
 		pMap->entitiesBuffer[++cur] = '\n';
 
@@ -750,7 +750,7 @@ BOOL BSPRand_BuildEntBuffer()
 			sprintf_s( line, sizeof( line ), "\"%s\" \"%s\"", kv->key, kv->value );
 
 			totalSize += strlen( line ) + 1;
-			pMap->entitiesBuffer = realloc( pMap->entitiesBuffer, totalSize );
+			pMap->entitiesBuffer = ( char* )realloc( pMap->entitiesBuffer, totalSize );
 
 			// append
 			char *dest = &pMap->entitiesBuffer[++cur];
@@ -771,14 +771,14 @@ BOOL BSPRand_BuildEntBuffer()
 
 		// end bracket
 		totalSize += 2;
-		pMap->entitiesBuffer = realloc( pMap->entitiesBuffer, totalSize );
+		pMap->entitiesBuffer = ( char* )realloc( pMap->entitiesBuffer, totalSize );
 		pMap->entitiesBuffer[++cur] = '}';
 		pMap->entitiesBuffer[++cur] = '\n';
 	}
 
 	// null terminate
 	totalSize++;
-	pMap->entitiesBuffer = realloc( pMap->entitiesBuffer, totalSize );
+	pMap->entitiesBuffer = ( char* )realloc( pMap->entitiesBuffer, totalSize );
 	pMap->entitiesBuffer[++cur] = '\0';
 
 	pMap->entitiesBufferSize = totalSize;
@@ -837,12 +837,12 @@ KeyValue_t *BSPRand_KvCreate( Entity_t *ent, const char *key, const char *value 
 	if ( !ent )
 		return NULL;
 
-	KeyValue_t *kv = malloc( sizeof( KeyValue_t ) );
+	KeyValue_t *kv = ( KeyValue_t* )malloc( sizeof( KeyValue_t ) );
 	strncpy( kv->key, key, MAX_KEY );
 	strncpy( kv->value, value, MAX_VALUE );
 
 	ent->kvCount++;
-	ent->keyValues = realloc( ent->keyValues, ent->kvCount * sizeof( KeyValue_t* ) );
+	ent->keyValues = ( KeyValue_t** )realloc( ent->keyValues, ent->kvCount * sizeof( KeyValue_t* ) );
 	ent->keyValues[ent->kvCount - 1] = kv;
 	return kv;
 }
